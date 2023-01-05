@@ -1,0 +1,24 @@
+物联网使用mqtt协议
+1.必须安装mosquitto(作为broker,就是mqtt服务器，又叫消息代理，没有会拒绝连接报错)
+百度，windows下载安装包exe；ubuntu下 sudo apt isstall mosquitto
+打开终端，cd mosquitto
+启动mosquitto -c mosquitto.conf
+订阅mosquitto_sub -v -t topic1  #topic1为自定义主题名
+发布mosquitto_pub -t topic1 -m "hello"
+订阅mosquitto_sub -d -i 001 -t 'msg'
+发布mosquitto_pub -d -i 002 -t 'msg' -m '8'
+#***注意-t 后面topic有''会导致paho_mqtt接收不到，认为是另一个topic，所以执行mosquitto_pub -d -i 002 -t msg -m '8'
+这时pahomqtt的test.py接收的是sensor1 b"'8'"
+在windows的cmd中是无法识别""这个符号的，必须输入改成\"
+2.可选安装mqttfx,（相当于订阅与发布都有的软件）
+3.paho-mqtt就是实现MQTT客户端的python库
+pip install paho-mqtt -i https://pypi.tuna.tsinghua.edu.cn/simple
+#或者git clone paho.mqtt.python 再cd xxx,再python setup.py install
+执行demo时候接收不到,但是mosquitto测试能收到:原因：topic 引号
+
+4.解除mosquitto只能本地访问
+allow_anonymous true
+listener 1883
+
+
+
